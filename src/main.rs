@@ -28,7 +28,7 @@ fn main() {
     fs::create_dir(&project_dir).expect("Failed to create project directory");
 
     // Copy template (we’ll make this in the next step)
-    let template_path = format!("templates/{}", args.template);
+    let template_path = format!("templates/{}/base", args.template);
     copy_dir_all(&template_path, &project_dir).expect("Failed to copy template");
 
     println!("✅ Project '{}' created using '{}' template.", args.name, args.template);
