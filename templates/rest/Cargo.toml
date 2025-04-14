@@ -4,3 +4,17 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+actix-cors = "0.7.1"
+actix-web = "4.10.2"
+bcrypt = "0.17.0"
+deadpool-redis = { version = "0.20.0", features = ["rt_tokio_1"] }
+dotenvy = "0.15.7"
+fern = "0.7.1"
+jsonwebtoken = "9.3.1"
+log = "0.4.27"
+regex = "1.11.1"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+tokio = { version = "1.44.2", features = ["full"] }
+tokio-postgres = { version = "0.7.13", features = ["with-uuid-1"] }
+uuid = { version = "1.16.0", features = ["v4", "serde"] }
