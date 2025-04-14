@@ -68,15 +68,18 @@ fn main() {
 
 /// Recursively copy a directory
 fn copy_dir_all(src: &str, dst: &Path) -> std::io::Result<()> {
+    fs::create_dir_all(dst)?; // ✅ Ensure the destination directory exists
     for entry in fs::read_dir(src)? {
         let entry = entry?;
         let path = entry.path();
         let dest_path = dst.join(entry.file_name());
 
         if path.is_dir() {
-            fs::create_dir_all(&dest_path)?;
             copy_dir_all(path.to_str().unwrap(), &dest_path)?;
         } else {
+            if let Some(parent) = dest_path.parent() {
+                fs::create_dir_all(parent)?; // ✅ Create parent directories for files
+            }
             fs::copy(&path, &dest_path)?;
         }
     }
