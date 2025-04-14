@@ -1,19 +1,28 @@
+use std::env;
+
 use actix_web::http::header::HeaderMap;
 use chrono::{Duration, Utc};
 use dotenvy::dotenv;
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
+use serde::{Deserialize, Serialize};
 use log::debug;
 use once_cell::sync::Lazy;
-use std::env;
 use uuid::Uuid;
 
-use crate::models::{jwt::Claims, response::AuthError};
+use crate::models::response::AuthError;
 
 static SECRET_KEY: Lazy<String> = Lazy::new(|| {
     dotenv().ok();
     debug!("Fetching jwt SECRET_KEY...");
     env::var("SECRET_KEY").expect("SECRET_KEY must be set")
 });
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Claims {
+    pub sub: String,
+    pub role: String,
+    pub exp: usize,
+}
 
 pub fn generate_jwt(user_id: Uuid, role: String) -> Result<String, jsonwebtoken::errors::Error> {
     let expiration = Utc::now()
